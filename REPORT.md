@@ -8,19 +8,11 @@ Notes:
 
 ----
 
-Test
+Tester Name:
 
-Tester:
+Silent Test Notes:
 
-Issues:
-
-Fix:
-
----
-
-Test
-
-Tester:
+Interview Notes:
 
 Issues:
 
@@ -28,53 +20,4 @@ Fix:
 
 ---
 
-Test
-
-Tester:
-
-Issues:
-
-Fix:
-
----
-
-Test
-
-Tester:
-
-Issues:
-
-Fix:
-
----
-
-Test
-
-Tester:
-
-Issues:
-
-Fix:
-
----
-
-Test
-
-Tester:
-
-Issues:
-
-Fix:
-
----
-
-Test
-
-Tester:
-
-Issues:
-
-Fix:
-
----
-
+... Repeat for each Tester. 
