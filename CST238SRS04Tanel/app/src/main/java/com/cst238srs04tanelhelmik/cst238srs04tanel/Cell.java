@@ -5,5 +5,5 @@ import android.media.Image;
 public class Cell {
     int cellID;
     Boolean filled;
-    char team;
+    String team;
 }

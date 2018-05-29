@@ -1,6 +1,7 @@
 package com.cst238srs04tanelhelmik.cst238srs04tanel;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,30 +29,37 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        myButtonListener = new MyButtonListener(this, this);
         buildDynamicConstraintLayout();
+        TextView textView = findViewById(R.id.textViewPlayerTurn);
+        textView.setTextColor(Color.BLUE);
+        textView.setText("It's blue's turn");
     }
 
     private void buildDynamicConstraintLayout() {
-        int imageSet = 0;
+
         DisplayMetrics displayMetrics = new DisplayMetrics();
         WindowManager windowmanager = (WindowManager) getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
         windowmanager.getDefaultDisplay().getMetrics(displayMetrics);
         int deviceWidth = displayMetrics.widthPixels;
         int deviceHeight = displayMetrics.heightPixels;
-    // ConstraintLayout I had to add constraint_layout as the id to constraint layout is needed
+
+        // ConstraintLayout I had to add constraint_layout as the id to constraint layout is needed
         ConstraintLayout mainConstraintLayout = findViewById(R.id.constraint_layout);
+
+        //instantiate arrays
         buttonList = new ArrayList<>();
+        imageButtons = new ArrayList<>();
         ImageButton button1 = null;
-        ImageButton button2 = null;
         ConstraintSet constraintSet = new ConstraintSet();
         int buttonHeight = deviceHeight/20, buttonWidth = deviceWidth/14;
         float[] weights = new float[11];
-        ConstraintLayout lineLayout = findViewById(R.id.l1);;
-        myButtonListener = new MyButtonListener(this, this);
-        Drawable image = getDrawable(R.drawable.diamond_with_a_dot);
+        ConstraintLayout lineLayout = findViewById(R.id.l1);
+        Drawable image = getDrawable(R.drawable.bluecurtain);
         myButtonListener.myCells = new ArrayList<>();
-        //create lots of buttons
-        for (int i = 0; i < 122; i++){
+
+        //create lots of buttons 121 of them
+        for (int i = 0; i < 121; i++){
 
             button1 = new ImageButton(this);
             // Generate an Id and assign it to programmatically created Button
@@ -61,15 +70,23 @@ public class MainActivity extends AppCompatActivity {
                 Cell newCell = new Cell();
                 newCell.cellID = button1.getId();
                 newCell.filled = true;
+                newCell.team = "invalid";
                 myButtonListener.myCells.add(newCell);
             }
 
-            else if(i%2 == 0)
+            else if(i%2 != 0)
             {
                 button1.setImageDrawable(image);
                 Cell newCell = new Cell();
                 newCell.cellID = button1.getId();
                 newCell.filled = true;
+                // check the math here and see where it starts
+                if(i <12  || i >22 && i <34 || i > 44 && i < 56 || i > 66 && i < 78 || i > 88 && i < 100 || i > 110) {
+                    newCell.team = "blue";
+                }
+                else if( i > 12 && i < 23 || i >33 && i <45 || i > 55 && i < 67 || i >77 && i <89 || i > 99 ){
+                    newCell.team = "red";
+                }
                 myButtonListener.myCells.add(newCell);
             }
             else
@@ -77,7 +94,9 @@ public class MainActivity extends AppCompatActivity {
                 Cell newCell = new Cell();
                 newCell.cellID = button1.getId();
                 newCell.filled = false;
+                newCell.team = "board";
                 myButtonListener.myCells.add(newCell);
+                button1.setImageDrawable(getDrawable(R.drawable.downloadtemp));
             }
             ViewGroup.LayoutParams newParams;
             newParams = new ViewGroup.LayoutParams(buttonWidth, buttonHeight);
@@ -86,9 +105,9 @@ public class MainActivity extends AppCompatActivity {
             lineLayout.addView(button1);
             //put button id's into  a list of some sort.
             buttonList.add(button1.getId());
-
+            imageButtons.add(button1);
                 // Create Rule that states that the START of Button 1 will be positioned at the END of Button 2
-
+            constraintSet.clone(lineLayout);
                if(i >= 0 && i < 10) {
 
                    weights[i] = 0.5f;
@@ -96,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
 
                else if (i == 10)
                {
-                  constraintSet.clone(lineLayout);
+
                   List<Integer> currentSubList = buttonList.subList(0, buttonList.size()); //11
                   int[] myInts = toIntArray(currentSubList);
 
@@ -108,13 +127,13 @@ public class MainActivity extends AppCompatActivity {
                            ConstraintSet.CHAIN_SPREAD);
                    constraintSet.applyTo(lineLayout);
                    lineLayout = findViewById(R.id.l2);
-                   image = getDrawable(R.drawable.diamond_with_a_dot_red);
+                   image = getDrawable(R.drawable.redcurtain);
 
                }
                else if(i == 21)
                {
 
-                   constraintSet.clone(lineLayout);
+
                    List<Integer> currentSubList = buttonList.subList(11, buttonList.size()); //22
                    int[] myInts = toIntArray(currentSubList);
 
@@ -126,12 +145,12 @@ public class MainActivity extends AppCompatActivity {
                            ConstraintSet.CHAIN_SPREAD);
                    constraintSet.applyTo(lineLayout);
                    lineLayout = findViewById(R.id.l3);
-                   image = getDrawable(R.drawable.diamond_with_a_dot);
+                   image = getDrawable(R.drawable.bluecurtain);
                }
                else if(i == 32)
                {
 
-                   constraintSet.clone(lineLayout);
+
                    List<Integer> currentSubList = buttonList.subList(22, buttonList.size());//33
                    int[] myInts = toIntArray(currentSubList);
 
@@ -143,12 +162,12 @@ public class MainActivity extends AppCompatActivity {
                            ConstraintSet.CHAIN_SPREAD);
                    constraintSet.applyTo(lineLayout);
                    lineLayout = findViewById(R.id.l4);
-                   image = getDrawable(R.drawable.diamond_with_a_dot_red);
+                   image = getDrawable(R.drawable.redcurtain);
                }
                else if(i == 43)
                {
 
-                   constraintSet.clone(lineLayout);
+
                    List<Integer> currentSubList = buttonList.subList(33, buttonList.size());//44
                    int[] myInts = toIntArray(currentSubList);
 
@@ -160,12 +179,12 @@ public class MainActivity extends AppCompatActivity {
                            ConstraintSet.CHAIN_SPREAD);
                    constraintSet.applyTo(lineLayout);
                    lineLayout = findViewById(R.id.l5);
-                   image = getDrawable(R.drawable.diamond_with_a_dot);
+                   image = getDrawable(R.drawable.bluecurtain);
                }
                else if(i == 54)
                {
 
-                   constraintSet.clone(lineLayout);
+
                    List<Integer> currentSubList = buttonList.subList(44, buttonList.size());//55
                    int[] myInts = toIntArray(currentSubList);
 
@@ -177,12 +196,12 @@ public class MainActivity extends AppCompatActivity {
                            ConstraintSet.CHAIN_SPREAD);
                    constraintSet.applyTo(lineLayout);
                    lineLayout = findViewById(R.id.l6);
-                   image = getDrawable(R.drawable.diamond_with_a_dot_red);
+                   image = getDrawable(R.drawable.redcurtain);
                }
                else if(i == 65)
                {
 
-                   constraintSet.clone(lineLayout);
+
                    List<Integer> currentSubList = buttonList.subList(55, buttonList.size());//66
                    int[] myInts = toIntArray(currentSubList);
 
@@ -194,12 +213,12 @@ public class MainActivity extends AppCompatActivity {
                            ConstraintSet.CHAIN_SPREAD);
                    constraintSet.applyTo(lineLayout);
                    lineLayout = findViewById(R.id.l7);
-                   image = getDrawable(R.drawable.diamond_with_a_dot);
+                   image = getDrawable(R.drawable.bluecurtain);
                }
                else if(i == 76)
                {
 
-                   constraintSet.clone(lineLayout);
+
                    List<Integer> currentSubList = buttonList.subList(66, buttonList.size());//77
                    int[] myInts = toIntArray(currentSubList);
 
@@ -211,12 +230,12 @@ public class MainActivity extends AppCompatActivity {
                            ConstraintSet.CHAIN_SPREAD);
                    constraintSet.applyTo(lineLayout);
                    lineLayout = findViewById(R.id.l8);
-                   image = getDrawable(R.drawable.diamond_with_a_dot_red);
+                   image = getDrawable(R.drawable.redcurtain);
                }
                else if(i == 87)
                {
 
-                   constraintSet.clone(lineLayout);
+
                    List<Integer> currentSubList = buttonList.subList(77, buttonList.size());//88
                    int[] myInts = toIntArray(currentSubList);
 
@@ -228,12 +247,12 @@ public class MainActivity extends AppCompatActivity {
                            ConstraintSet.CHAIN_SPREAD);
                    constraintSet.applyTo(lineLayout);
                    lineLayout = findViewById(R.id.l9);
-                   image = getDrawable(R.drawable.diamond_with_a_dot);
+                   image = getDrawable(R.drawable.bluecurtain);
                }
                else if(i == 98)
                {
 
-                   constraintSet.clone(lineLayout);
+
                    List<Integer> currentSubList = buttonList.subList(88, buttonList.size());//99
                    int[] myInts = toIntArray(currentSubList);
 
@@ -245,12 +264,12 @@ public class MainActivity extends AppCompatActivity {
                            ConstraintSet.CHAIN_SPREAD);
                    constraintSet.applyTo(lineLayout);
                    lineLayout = findViewById(R.id.l10);
-                   image = getDrawable(R.drawable.diamond_with_a_dot_red);
+                   image = getDrawable(R.drawable.redcurtain);
                }
                else if(i == 109)
                {
 
-                   constraintSet.clone(lineLayout);
+
                    List<Integer> currentSubList = buttonList.subList(99, buttonList.size());//110
                    int[] myInts = toIntArray(currentSubList);
 
@@ -262,12 +281,12 @@ public class MainActivity extends AppCompatActivity {
                            ConstraintSet.CHAIN_SPREAD);
                    constraintSet.applyTo(lineLayout);
                    lineLayout = findViewById(R.id.l11);
-                   image = getDrawable(R.drawable.diamond_with_a_dot);
+                   image = getDrawable(R.drawable.bluecurtain);
                }
                else if(i == 120)
                {
 
-                   constraintSet.clone(lineLayout);
+
                    List<Integer> currentSubList = buttonList.subList(110, buttonList.size());//121
                    int[] myInts = toIntArray(currentSubList);
 
@@ -280,10 +299,6 @@ public class MainActivity extends AppCompatActivity {
                    constraintSet.applyTo(lineLayout);
 
                }
-
-
-
-
         }
 
         myButtonListener.setButtonList(buttonList);
