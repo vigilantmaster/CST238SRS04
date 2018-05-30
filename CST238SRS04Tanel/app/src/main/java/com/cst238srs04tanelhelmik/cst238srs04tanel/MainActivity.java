@@ -1,6 +1,8 @@
 package com.cst238srs04tanelhelmik.cst238srs04tanel;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.constraint.ConstraintLayout;
@@ -12,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -34,6 +37,13 @@ public class MainActivity extends AppCompatActivity {
         TextView textView = findViewById(R.id.textViewPlayerTurn);
         textView.setTextColor(Color.BLUE);
         textView.setText("It's blue's turn");
+        Button restartButton = findViewById(R.id.buttonReset);
+        restartButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               reload();
+            }
+        });
     }
 
     private void buildDynamicConstraintLayout() {
@@ -84,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
                 if(i <12  || i >22 && i <34 || i > 44 && i < 56 || i > 66 && i < 78 || i > 88 && i < 100 || i > 110) {
                     newCell.team = "blue";
                 }
-                else if( i > 12 && i < 23 || i >33 && i <45 || i > 55 && i < 67 || i >77 && i <89 || i > 99 ){
+                else if( i > 11 && i < 23 || i >33 && i <45 || i > 55 && i < 67 || i >77 && i <89 || i > 99 ){
                     newCell.team = "red";
                 }
                 myButtonListener.myCells.add(newCell);
@@ -313,5 +323,13 @@ public class MainActivity extends AppCompatActivity {
         for (Integer e : list)
             ret[i++] = e.intValue();
         return ret;
+    }
+    public void reload() {
+        Intent intent = getIntent();
+        overridePendingTransition(0, 0);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        finish();
+        overridePendingTransition(0, 0);
+        startActivity(intent);
     }
 }

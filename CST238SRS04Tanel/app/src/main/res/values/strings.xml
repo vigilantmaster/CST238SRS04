@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">CST238SRS04Tanel</string>
     <string name="Player">Player Turn</string>
+    <string name="Restart">Restart</string>
 </resources>
