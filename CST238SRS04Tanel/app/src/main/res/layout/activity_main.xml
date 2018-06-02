@@ -19,14 +19,14 @@
 
         <Button
             android:id="@+id/buttonReset"
-            style="@style/Widget.AppCompat.Button"
-            android:layout_width="wrap_content"
+            style="@android:style/Widget.Material.Button.Small"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:text="@string/Restart"
             android:textAlignment="center"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/textViewPlayerTurn"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintEnd_toStartOf="@+id/hintButton"
+            app:layout_constraintStart_toEndOf="@+id/textViewPlayerTurn" />
 
         <TextView
             android:id="@+id/textViewPlayerTurn"
@@ -40,13 +40,26 @@
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/hintButton"
+            style="@style/Base.TextAppearance.AppCompat.Tooltip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="8dp"
+            android:text="@string/hintbuttontext"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/buttonReset"
+            app:layout_constraintTop_toTopOf="parent" />
     </android.support.constraint.ConstraintLayout>
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/l1"
         android:layout_width="match_parent"
         android:layout_height="@android:dimen/app_icon_size"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="60dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">

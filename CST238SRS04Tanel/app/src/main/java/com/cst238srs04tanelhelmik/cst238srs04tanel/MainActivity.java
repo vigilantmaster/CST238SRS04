@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     List<Integer> buttonList;
     public List<ImageButton> imageButtons;
     MyButtonListener myButtonListener = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,9 +42,22 @@ public class MainActivity extends AppCompatActivity {
         restartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               reload();
+                reload();
             }
         });
+        Button hintButton = findViewById(R.id.hintButton);
+        hintButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               ShowHintActivity();
+            }
+        });
+    }
+
+    void ShowHintActivity()
+    {
+        Intent Intent = new Intent(this, HintActivity.class);
+        startActivity(Intent);
     }
 
     private void buildDynamicConstraintLayout() {
@@ -63,10 +77,9 @@ public class MainActivity extends AppCompatActivity {
         ImageButton button1 = null;
         ConstraintSet constraintSet = new ConstraintSet();
         int buttonHeight = deviceHeight/20, buttonWidth = deviceWidth/14;
-        float[] weights = new float[11];
         ConstraintLayout lineLayout = findViewById(R.id.l1);
         Drawable image = getDrawable(R.drawable.bluecurtain);
-        myButtonListener.myCells = new ArrayList<>();
+
 
         //create lots of buttons 121 of them
         for (int i = 0; i < 121; i++){
@@ -77,36 +90,14 @@ public class MainActivity extends AppCompatActivity {
             button1.setOnClickListener(myButtonListener);
             if(i == 0 || i == 10 || i==110 || i == 120) {
                 button1.setImageDrawable(getDrawable(R.drawable.download));
-                Cell newCell = new Cell();
-                newCell.cellID = button1.getId();
-                newCell.filled = true;
-                newCell.team = "invalid";
-                myButtonListener.myCells.add(newCell);
             }
-
             else if(i%2 != 0)
             {
                 button1.setImageDrawable(image);
-                Cell newCell = new Cell();
-                newCell.cellID = button1.getId();
-                newCell.filled = true;
-                // check the math here and see where it starts
-                if(i <12  || i >22 && i <34 || i > 44 && i < 56 || i > 66 && i < 78 || i > 88 && i < 100 || i > 110) {
-                    newCell.team = "blue";
-                }
-                else if( i > 11 && i < 23 || i >33 && i <45 || i > 55 && i < 67 || i >77 && i <89 || i > 99 ){
-                    newCell.team = "red";
-                }
-                myButtonListener.myCells.add(newCell);
             }
             else
             {
-                Cell newCell = new Cell();
-                newCell.cellID = button1.getId();
-                newCell.filled = false;
-                newCell.team = "board";
-                myButtonListener.myCells.add(newCell);
-                button1.setImageDrawable(getDrawable(R.drawable.downloadtemp));
+               button1.setImageDrawable(getDrawable(R.drawable.downloadtemp));
             }
             ViewGroup.LayoutParams newParams;
             newParams = new ViewGroup.LayoutParams(buttonWidth, buttonHeight);
@@ -118,12 +109,7 @@ public class MainActivity extends AppCompatActivity {
             imageButtons.add(button1);
                 // Create Rule that states that the START of Button 1 will be positioned at the END of Button 2
             constraintSet.clone(lineLayout);
-               if(i >= 0 && i < 10) {
-
-                   weights[i] = 0.5f;
-               }
-
-               else if (i == 10)
+             if (i == 10)
                {
 
                   List<Integer> currentSubList = buttonList.subList(0, buttonList.size()); //11
@@ -142,8 +128,6 @@ public class MainActivity extends AppCompatActivity {
                }
                else if(i == 21)
                {
-
-
                    List<Integer> currentSubList = buttonList.subList(11, buttonList.size()); //22
                    int[] myInts = toIntArray(currentSubList);
 
@@ -310,10 +294,7 @@ public class MainActivity extends AppCompatActivity {
 
                }
         }
-
         myButtonListener.setButtonList(buttonList);
-
-
     }
 
 
@@ -325,11 +306,13 @@ public class MainActivity extends AppCompatActivity {
         return ret;
     }
     public void reload() {
-        Intent intent = getIntent();
-        overridePendingTransition(0, 0);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-        finish();
-        overridePendingTransition(0, 0);
-        startActivity(intent);
+       myButtonListener.myBoard.GenerateCellList();
+       myButtonListener.myBoard.ResetButtonImages();
+       myButtonListener.loseFlagRed = false;
+       myButtonListener.loseFlagBlue = false;
+       myButtonListener.currentPlayer = "blue";
+       TextView myTextView = findViewById(R.id.textViewPlayerTurn);
+       myTextView.setTextColor(Color.BLUE);
+       myTextView.setText("It's blue's turn");
     }
 }

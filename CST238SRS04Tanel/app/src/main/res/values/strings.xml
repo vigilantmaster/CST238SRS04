@@ -2,4 +2,7 @@
     <string name="app_name">CST238SRS04Tanel</string>
     <string name="Player">Player Turn</string>
     <string name="Restart">Restart</string>
+    <string name="hintbuttontext">hint</string>
+    <string name="WinAccross">Win by crossing horizontal</string>
+    <string name="WinVertical">Win by crossing vertically</string>
 </resources>
